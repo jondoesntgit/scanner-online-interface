@@ -1,12 +1,13 @@
 <?php
+require_once('extract_id.php');
 /* Headers for downloading file */
 
-header('Content-Description: File Transfer');
+/*header('Content-Description: File Transfer');
 header('Content-Type: application/octet-stream');
 header('Content-Disposition: attachment; filename=eigenreport.csv');
 header('Expires: 0');
 header('Cache-Control: must-revalidate');
-header('Pragma: public');
+header('Pragma: public'); */
 
 //header('Content-Length: ' . filesize($file));
 
@@ -19,6 +20,35 @@ if (isset($_POST['roster_file'])) {
     } else { die('Invalid roster file'); }
   } else { die('Invalid roster file'); }
 } else { die('No roster file set'); }
+
+function get_scanner_type($testRow) {
+
+	echo(implode($testRow,',') . '<br>');
+	return('CS1504');
+  echo('Size of testRow' . count($testRow) . '<br>');
+	echo $testRow[1] . '<br>';
+	//Try Manual
+  preg_match('/(\d{5})/',$testRow[0],$matches);
+  if (sizeof($matches) == 1){
+	  echo 'MANUAL';
+  return('MANUAL');
+}
+  //Try CS1504
+  preg_match('/(\d{5})/',$testRow[1],$matches); // Check to see if there are 5 numbers in a row
+  if (sizeof($matches) == 1){
+  echo 'CS1504';
+	return('CS1504');
+}
+
+  //Try CS3000
+  preg_match('/(\d{5})/',$testRow[3],$matches); // Check to see if there are 5 numbers in a row
+  if (sizeof($matches) == 1){
+		echo 'CS3000';
+  return('CS3000');
+	}
+
+  return('Unknown');
+}
 
 
 
@@ -55,36 +85,23 @@ foreach(array('eigentalks','eigenextras') as $type_of_eigen)
     $short_filename = $file;
     if (strpos($short_filename, '/') !== FALSE)
       $short_filename = substr($short_filename, strrpos($short_filename, '/') + 1);
-    if (strpos($short_filename, '.') !== FALSE) 
+    if (strpos($short_filename, '.') !== FALSE)
       $short_filename = substr($short_filename, 0, strpos($short_filename, "."));
     // Open file
     $contents = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    $csvRows = array_map('str_getcsv', $contents);    
+    $csvRows = array_map('str_getcsv', $contents);
     // Give students credit that were in file
-    foreach($csvRows as $row) 
+    foreach($csvRows as $row)
     {
-      // Get ID number
-      // Row0: encoding
-      // Row1: barcode
-      // Row2: timestamp
-      if (count($row)>1) 
-      {
-	$barcode = $row[1];
-	// Eliminate leading zeroes and get rid of last two numbers
-	$id = ltrim($barcode,'0');
-	$id = substr($id,0,-2);
-      } else 
-      {
-	$id = $row[0];
-      }
-      // Is the ID in the roster file?
-      if (array_key_exists($id,$students))
-      {
-	// Is this scan already credited to the student
-	if (!in_array($short_filename,$students[$id][$type_of_eigen]))
-	{
-	  array_push($students[$id][$type_of_eigen],$short_filename);
-	}
+			$id = extract_id($row);
+		  // Is the ID in the roster file?
+		  if (array_key_exists($id,$students))
+		  {
+				// Is this scan already credited to the student
+				if (!in_array($short_filename,$students[$id][$type_of_eigen]))
+				{
+				  array_push($students[$id][$type_of_eigen],$short_filename);
+				}
       }
     }
   }
@@ -101,8 +118,8 @@ foreach(array('eigentalks','eigenextras') as $type_of_eigen)
     $eigenextras = count($student['eigenextras']);
     $eigentalks = count($student['eigentalks']);
     $eigentotal = $eigenextras + $eigentalks;
-    echo $student['id'] . ',' 
-      . $student['first_name'] . ',' 
+    echo $student['id'] . ','
+      . $student['first_name'] . ','
       . $student['last_name'] . ','
       . $eigentalks . ','
       . $eigenextras . ','
