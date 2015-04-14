@@ -93,7 +93,8 @@ foreach($_POST['sgl_files'] as $sgl_file)
     // This is not a start, stop, ec, it's something crazy...
     else 
     {
-      echo "Weird scan: " . $row ."\n";
+	    echo "Weird scan: ";
+	   print_r($row); 
     }
   }
 }

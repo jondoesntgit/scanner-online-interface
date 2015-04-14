@@ -17,8 +17,8 @@ function extract_id($string,$special_id_arr = null){
   }
 
   // As of 2015, 4 leading zeroes, 6 digit ID, 2 digit #of cards issued
-  preg_match('/(0{3}\d{9,})/',$string,$matches);
-  if(sizeof($matches)>1)
+  preg_match('/([1-9]\d{1,5})(?=\d{2})/',$string,$matches);
+  if(sizeof($matches)>0)
   {
     $id = $matches[0];
     if (strlen($id)>6){
