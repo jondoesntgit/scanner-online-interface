@@ -1,8 +1,19 @@
 <?php
-function extract_id($string){
+function extract_id($string,$special_id_arr = null){
   if(is_array($string)) {
     // Change array to string
     $string=implode($string,',');
+  }
+  
+  if ($special_id_arr != null){
+    $lowstring = strtolower($string);
+    foreach ($special_id_arr as $word)
+      if (strpos($lowstring,$word) === false){
+        // These are not the droids you're looking for
+      } else {
+         return($word);
+      }
+
   }
 
   // As of 2015, 4 leading zeroes, 6 digit ID, 2 digit #of cards issued

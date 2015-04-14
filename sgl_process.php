@@ -1,4 +1,5 @@
 <?php
+require_once('extract_id.php');
 /* Headers for downloading file */
 
 header('Content-Description: File Transfer');
@@ -65,31 +66,18 @@ foreach($_POST['sgl_files'] as $sgl_file)
   // Give students credit that were in file
   foreach($csvRows as $row) 
   {
+    $special_id_arr = array('ec','start 1','start 2','start 3', 'start 4', 'start 5', 'stop');
+    $id = extract_id($row,$special_id_arr);
     // Is this a start, stop, ec, etc...
-    if  (in_array(strtolower($row[1]),array('ec','start 1','start 2','start 3', 'start 4', 'start 5', 'stop'))) {
-      if(strcmp(strtolower($row[1]),'ec')==0) $ec = true;
-      elseif(strcmp(strtolower($row[1]),'stop')==0) {$ec = false; $checkpoint = null;}
+    if  (in_array($id,$special_id_arr)) {
+      if(strcmp($id,'ec')==0) $ec = true;
+      elseif(strcmp($id,'stop')==0) {$ec = false; $checkpoint = null;}
       else {
-	$checkpoint = substr($row[1],-1);
+	$checkpoint = substr($id,-1);
       }
     }
     // Is this a barcode?
-    elseif (is_numeric($row[1])) {
-      // Get ID number
-      // Row0: encoding
-      // Row1: barcode
-      // Row2: timestamp
-      if (count($row)>1) 
-      {
-	$barcode = $row[1];
-	// Eliminate leading zeroes and get rid of last two numbers
-	$id = ltrim($barcode,'0');
-	$id = substr($id,0,-2);
-      } else 
-      {
-	$id = $row[0];
-	echo 'Manually edited data. This ought not to be';
-      }
+    elseif (is_numeric($id)) {
       // Is the ID in the roster file?
       if (array_key_exists($id,$students))
 	// Is the checkpoint set?
@@ -98,7 +86,7 @@ foreach($_POST['sgl_files'] as $sgl_file)
 	  if (!in_array($checkpoint,$students[$id]['checkpoints']))
 	  {
 	    array_push($students[$id]['checkpoints'],$checkpoint);
-	    array_push($students[$id]['timestamps'],$row[2]);
+	    //array_push($students[$id]['timestamps'],$row[2]); // TODO: Someday define timestamps in extract_timestamp method
 	    if ($ec) array_push($students[$id]['checkpoints'],'+EC');
 	  }
     }
