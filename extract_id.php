@@ -13,11 +13,10 @@ function extract_id($string,$special_id_arr = null){
       } else {
          return($word);
       }
-
   }
 
   // As of 2015, 4 leading zeroes, 6 digit ID, 2 digit #of cards issued
-  preg_match('/([1-9]\d{1,5})(?=\d{2})/',$string,$matches);
+  preg_match('/([1-9]\d{4,5})(?=\d{2})/',$string,$matches);
   if(sizeof($matches)>0)
   {
     $id = $matches[0];
@@ -28,7 +27,7 @@ function extract_id($string,$special_id_arr = null){
     return($id);
   }
   // Find the ID in the text
-  preg_match('/(\d{5,6}\d*)/',$string,$matches);
+  preg_match('/([1-9]\d{4,5}\d*)/',$string,$matches);
   if(sizeof($matches)>1) $id = $matches[0];
   else $id = 'No ID';
   return($id);
