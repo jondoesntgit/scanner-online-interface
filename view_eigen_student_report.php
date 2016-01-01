@@ -5,7 +5,7 @@
 <script>
 
 $(document).ready(function(){
-  reportGen();
+  //reportGen();
 })
 
 function reportGen(){

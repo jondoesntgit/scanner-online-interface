@@ -22,21 +22,21 @@
 <body>
 
 <div class="wrapper">
+<h1>
+Welcome to the Physics' department Scanner Hub
+</h1>
   <div class="main">
 
 <select onchange=toggle_visibility() id="selectInterface">
   <option value="select_option">Select Option</option>
-  <option value="upload_file">Upload Scanner CSV</option>
+  <option value="uploader">Upload Scanner CSV</option>
   <option value="eigen">Eigen Attendance Generator</option>
-  <option value="list_files">List Files</option>
+  <option value="list-files">List Files</option>
   <option value="sgl_report">SGL Report</option>
 </select>
 
 <hr>
     <div id="select_option" class="togglableDisplay">
-<h1>
-Welcome to the Physics' department Scanner Hub
-</h1>
 
 <p>
 For installation details on the cs1504 scanner, view my github at <a href="http://github.com/wheelerj/cs1504">github.com/wheelerj/cs1504</a>
@@ -48,10 +48,16 @@ There are four interfaces:
 
 <h2>Upload</h2>
 <p>
-In this interface, either the instructor the TA may upload files to the server. These files must be the files that the cs1504 scanner outputs.
+In this interface, either the instructor the TA may upload files to the server. These files must be the files that the cs1504 scanner outputs. All the scripts rely on
+<ol>
+  <li>The first field being the scanning type (Code128 for AU ID's)
+  <li>The second field being the ID number (usually 4 leading zeros, 6 digit ID, and 2 digits telling you how many ID cards you've had<br>
+example: 000014930601 (Jonathan Wheeler's ID) - 0000 (placeholders - 149306 (AU ID) - 01 (This is my first ID card)
+  <li>The final field is a timestamp recorded by the barcode reader
+</ol>
 
 <h3>Eigen</h3>
-Regular eigentalks should be uploaded as eigentalks. All other events (eigenvespers)as eigenextras. The difference is that MATH389 only gives attendance for eigentalks, and will substitute ONE eigenextra for a missed eigentalk, etc...<p>
+Regular eigentalks should be uploaded as eigentalks. All other events (eigenvespers)as eigenextras. The difference is that MATH389 only gives attendance for eigentalks, but not for eigenvespers, etc...<p>
 
 <p>It is most useful to give your filename something descriptive. I usually name them something like:
 <pre>
@@ -69,15 +75,28 @@ Where the 150204 represents 2015 Feb 4, and everything else just makes the file 
 
 <h3>Manual changes</h3>
 <p>
-Manual changes may be uploaded.
-If you do find yourself needing to manually alter a file, type the following: Let's say Jonathan has missed an eigen: append
-<pre>
-149306
-</pre>
+Manual changes may be uploaded, but care should be taken that the comma separated fields are left intact, or else php will hiccup. Error handling is a pain to code,
+and to save time I have glazed over some of the errors that are created when one messes with manually adding ID's to a scan.
 
 <p>
-The script should handle 5 and 6 digit IDs fine. It will run into problem with ID's shorter or longer than this.
-</p>
+If you do find yourself needing to manually alter a file, type the following: Let's say Jonathan has missed an eigen: append
+<pre>
+,000014930601,
+</pre>
+to the end of the csv before uploading. The commas at the beginning and end will simply create '' for the encoding and '' for the timestamp, but should not cause 
+php to complain about errors.
+
+<p>
+For 5-digit ID's, do
+<pre>
+,000009876502,
+</pre>
+
+<p>In most cases, as long as you have exactly 2 numbers after the ID, and any number of leading 0's, one should be fine. The script checks for 0's before and 2 characters after. The above code is synonymous with the following:
+<pre>
+,000000000000000009876501,
+,09876599,
+</pre>
 
 <p>
 It is important to note that because of permissions on the server, altering files after uploads can be a bit of a chore, so be careful with your uploads.
@@ -96,7 +115,7 @@ Select which roster you wish to create a report for, and click the Generate Repo
 This is a list of all files on the server. This is helpful for checking to see if a file uploaded successfully.
 
 <p>
-If the list of files is becoming too daunting, contact Jonathan Wheeler (contact info on jamwheeler.com) to clear it.
+If the list of files is becoming too daunting, contact Jonathan Wheeler to clear it.
 
 <h2>SGL Report</h2>
 <p>
@@ -115,10 +134,14 @@ It is not neccessary to scan a "Stop" after every group of students. Merely scan
 
 <p>To download a sheet of paper which contains all codons, click <a href="barcodes.pdf">here</a>.
 
+<p>
+If you experience any difficulties, please feel free to contact me at wheelerj@andrews.edu
+</p>
+
     </div> <!--/ select option -->
     
-    <div id="upload_file" class="togglableDisplay">
-     <form action="upload_file.php" method="post" enctype="multipart/form-data">
+    <div id="uploader" class="togglableDisplay">
+     <form action="upload.php" method="post" enctype="multipart/form-data">
        <p>
         Select the file to upload
        </p>
@@ -136,7 +159,7 @@ It is not neccessary to scan a "Stop" after every group of students. Merely scan
        <input type="file" name="fileToUpload" id="fileToUpload"><br/>
        <input type="submit" value="Upload CSV File" name="submit">
     </form>
-  </div> <!-- /upload_file -->
+  </div> <!-- /uploader -->
 
 
   <div id="eigen" class="togglableDisplay">
@@ -163,7 +186,7 @@ echo '        <option value="'. $short_filename .'">' . $short_filename . '</opt
 
    </div>
   
-<div id="list_files" class="togglableDisplay">
+<div id="list-files" class="togglableDisplay">
 <ul>
 <?php
 function strip_slash($string) {
@@ -236,7 +259,7 @@ function getUrlParameter(sParam)
   }
 }     
 if (getUrlParameter('show')==='files')
-  $("#selectInterface").val('list_files').change()
+  $("#selectInterface").val('list-files').change()
 
 divId = ($("#selectInterface").val())
 $('.togglableDisplay').not('#'+divId).hide()

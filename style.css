@@ -1,3 +1,35 @@
 /*
- * No styling was added. This is here for future work if desired
- * /
+body
+{
+ background-color:#bbbbbb;
+}
+
+h1
+{
+ text-align:center;
+}
+
+.wrapper {
+  position: absolute;
+  top: 50%;
+  margin-top: -200px;
+  left: 0;
+  width: 100%;
+}
+
+.main {
+
+    width: 600px;
+    height: 400px;
+    margin-left:auto;
+    margin-right:auto;
+   padding:10px;
+   border:2px solid;
+   border-radius: 25px;
+/*    height: 100px; */
+  
+ /* background-color:#eeeeee;
+  /* bring your own prefixes */
+  /*transform: translate(-50%, -50%);
+}
+*/

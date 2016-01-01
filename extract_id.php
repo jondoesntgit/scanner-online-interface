@@ -13,6 +13,7 @@ function extract_id($string,$special_id_arr = null){
       } else {
          return($word);
       }
+
   }
 
   // As of 2015, 4 leading zeroes, 6 digit ID, 2 digit #of cards issued

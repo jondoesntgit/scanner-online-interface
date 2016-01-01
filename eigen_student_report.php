@@ -1,7 +1,6 @@
 <?php
 require_once('extract_id.php');
 // This file returns a JSON Object with student's report for Eigen
-header('Content-Type: application/json');
 
 // Check if GET parameter is set
 if (isset($_GET['id']))
@@ -10,7 +9,7 @@ if (isset($_GET['id']))
 }
 else
   die ('ID parameter is not set');
-
+  
 // Clean parameter, make sure it is 6 digit number or die
 preg_match('/(\d{6})/',$studentid,$matches);
 if (sizeof($matches) == 0)
@@ -33,13 +32,13 @@ foreach(array('eigentalks','eigenextras') as $type_of_eigen)
     $short_filename = $file;
     if (strpos($short_filename, '/') !== FALSE)
       $short_filename = substr($short_filename, strrpos($short_filename, '/') + 1);
-    if (strpos($short_filename, '.') !== FALSE)
+    if (strpos($short_filename, '.') !== FALSE) 
       $short_filename = substr($short_filename, 0, strpos($short_filename, "."));
     // Open file
     $contents = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    $csvRows = array_map('str_getcsv', $contents);
+    $csvRows = array_map('str_getcsv', $contents);    
     // Give students credit that were in file
-    foreach($csvRows as $row)
+    foreach($csvRows as $row) 
     {
       $id = extract_id($row);
       // Is this the student's ID?
