@@ -4,16 +4,22 @@
 <link rel="stylesheet" type="text/css" href="style.css" />
 <title>Physics Scanner Hub</title>
 <!-- Include jQuery -->
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
+<!-- Bootstrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
 <!--
-    function toggle_visibility() {
-       var selectElement = document.getElementById("selectInterface");
-       divId = ($("#selectInterface").val())
-       $('.togglableDisplay').not('#'+divId).hide()
+    toggle_visibility = function(divId) {
+//       var selectElement = document.getElementById("selectInterface");
+       //divId = ($("#selectInterface").val())
+       $('.togglableDisplay').hide()
        $('#'+divId).show()
+       $('.active').toggleClass('active')
+       $('.'+divId + '-button').addClass('active')
     }
 //-->
 </script>
@@ -22,21 +28,25 @@
 <body>
 
 <div class="wrapper">
-<h1>
-Welcome to the Physics' department Scanner Hub
+<h1 class="text-center">
+Welcome to the Physics' Department Scanner Hub
 </h1>
   <div class="main">
 
-<select onchange=toggle_visibility() id="selectInterface">
-  <option value="select_option">Select Option</option>
-  <option value="uploader">Upload Scanner CSV</option>
-  <option value="eigen">Eigen Attendance Generator</option>
-  <option value="list-files">List Files</option>
-  <option value="sgl_report">SGL Report</option>
-</select>
-
 <hr>
-    <div id="select_option" class="togglableDisplay">
+<div class="row">
+  <div class="col-md-3"> <!-- Left column -->
+    <ul class="list-group">
+      <a class="list-group-item eigen-button active" href="#" onclick="toggle_visibility('eigen')">Generate Eigen Report</a>
+      <a class="list-group-item sgl-report-button" href="#" onclick="toggle_visibility('sgl-report')">Generate SGL Report</a>
+      <a class="list-group-item uploader-button" href="#" onclick="toggle_visibility('uploader')">Upload Barcode Reader</a>
+      <a class="list-group-item help-button" href="#" onclick="toggle_visibility('help')">Show Help</a>
+    </ul>
+  </div> <!-- End of left column -->
+
+  <div class="col-md-5"> <!-- Center column -->
+
+    <div id="help" class="togglableDisplay">
 
 <p>
 For installation details on the cs1504 scanner, view my github at <a href="http://github.com/wheelerj/cs1504">github.com/wheelerj/cs1504</a>
@@ -139,7 +149,7 @@ If you experience any difficulties, please feel free to contact me at wheelerj@a
 </p>
 
     </div> <!--/ select option -->
-    
+
     <div id="uploader" class="togglableDisplay">
      <form action="upload.php" method="post" enctype="multipart/form-data">
        <p>
@@ -182,34 +192,7 @@ echo '        <option value="'. $short_filename .'">' . $short_filename . '</opt
    </form> <!-- /report_generator -->
   </div> <!-- /generator -->
   
-  <div>
-
-   </div>
-  
-<div id="list-files" class="togglableDisplay">
-<ul>
-<?php
-function strip_slash($string) {
-  if (strpos($string, '/') !== FALSE)
-    $string = substr($string,strrpos($string, '/') + 1);
-  return $string;
-}
-  foreach(glob('uploads/*', GLOB_ONLYDIR) as $dir)
-  {
-    echo '<li>' . strip_slash($dir);
-    echo '<ul>';
-    foreach(glob( $dir . '/*') as $file)
-    {
-      echo '<li><a href="' . $file . '">' . strip_slash($file) . '</a>';
-    }
-    echo '</ul><br><br>';
-	   
-  }
-?>
-</ul>
-</div> <!-- /list files -->
-
-<div class="togglableDisplay" id="sgl_report">
+<div class="togglableDisplay" id="sgl-report">
    <form action="sgl_process.php" method="post">
 Select Roster File:<br>
     <select name="roster_file">
@@ -241,6 +224,37 @@ Select Files<br>
    </form> <!-- /report_generator -->
 </div>
 
+  </div>
+  
+  <div class="col-md-4"> <!-- Right column -->
+<div id="list-files">
+<ul>
+<?php
+function strip_slash($string) {
+  if (strpos($string, '/') !== FALSE)
+    $string = substr($string,strrpos($string, '/') + 1);
+  return $string;
+}
+  foreach(glob('uploads/*', GLOB_ONLYDIR) as $dir)
+  {
+    echo '<li>' . strip_slash($dir);
+    echo '<ul>';
+    foreach(glob( $dir . '/*') as $file)
+    {
+      echo '<li><a href="' . $file . '">' . strip_slash($file) . '</a>';
+    }
+    echo '</ul><br><br>';
+	   
+  }
+?>
+</ul>
+</div> <!-- /list files -->
+
+  </div> <!-- End of right column -->
+
+
+    
+
 
 </body>
 <script type="text/javascript">
@@ -258,12 +272,16 @@ function getUrlParameter(sParam)
     }
   }
 }     
-if (getUrlParameter('show')==='files')
+/* Deprecated
+    * if (getUrlParameter('show')==='files')
   $("#selectInterface").val('list-files').change()
 
 divId = ($("#selectInterface").val())
 $('.togglableDisplay').not('#'+divId).hide()
 $('#'+divId).show()
+ */ 
+$('#eigen').show();
+console.log('Hey');
 //-->
 </script>
 </html>
