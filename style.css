@@ -33,3 +33,13 @@ h1
   /*transform: translate(-50%, -50%);
 }
 */
+
+.panel > .panel-heading {
+  background-color: #66f;
+  color: white;
+}
+
+.list-group > .list-group-item.active {
+  background-color: #66f;
+  color: white;
+}

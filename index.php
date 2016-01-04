@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="style.css" />
 <title>Physics Scanner Hub</title>
 <!-- Include jQuery -->
 
@@ -10,6 +9,7 @@
 <!-- Bootstrap -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css" />
 
 <script type="text/javascript">
 <!--
@@ -32,10 +32,9 @@
 Welcome to the Physics' Department Scanner Hub
 </h1>
   <div class="main">
-
 <hr>
 <div class="row">
-  <div class="col-md-3"> <!-- Left column -->
+  <div class="col-md-3 col-md-offset-1"> <!-- Left column -->
     <ul class="list-group">
       <a class="list-group-item eigen-button active" href="#" onclick="toggle_visibility('eigen')">Generate Eigen Report</a>
       <a class="list-group-item sgl-report-button" href="#" onclick="toggle_visibility('sgl-report')">Generate SGL Report</a>
@@ -44,9 +43,9 @@ Welcome to the Physics' Department Scanner Hub
     </ul>
   </div> <!-- End of left column -->
 
-  <div class="col-md-5"> <!-- Center column -->
-
+  <div class="col-md-4"> <!-- Center column -->
     <div id="help" class="togglableDisplay">
+<h2>Help</h2>
 
 <p>
 For installation details on the cs1504 scanner, view my github at <a href="http://github.com/wheelerj/cs1504">github.com/wheelerj/cs1504</a>
@@ -151,6 +150,7 @@ If you experience any difficulties, please feel free to contact me at wheelerj@a
     </div> <!--/ select option -->
 
     <div id="uploader" class="togglableDisplay">
+<h2>File Uploader</h2>
      <form action="upload.php" method="post" enctype="multipart/form-data">
        <p>
         Select the file to upload
@@ -169,10 +169,33 @@ If you experience any difficulties, please feel free to contact me at wheelerj@a
        <input type="file" name="fileToUpload" id="fileToUpload"><br/>
        <input type="submit" value="Upload CSV File" name="submit">
     </form>
+<hr>
+<h3>SGL</h3>
+<p>It is most useful to give your filename something descriptive. I usually name them something like:
+<pre>
+150204-lab2c
+</pre>
+Where the 150204 represents 2015 Feb 4, and everything else just makes the file a bit more descriptive. For labs or SGLs where multiple scanners are used, the a, b, c, at the end of the filename help the server keep track of which file gets what, etc...
+
+<h3>Eigen</h3>
+Regular eigentalks should be uploaded as eigentalks. All other events (eigenvespers)as eigenextras. The difference is that MATH389 only gives attendance for eigentalks, but not for eigenvespers, etc...<p>
+
+<p>It is most useful to give your filename something descriptive. I usually name them something like:
+<pre>
+150206-eigentalk04-journal-club
+</pre>
+Where the 150206 represents 2015 Feb 6, and everything else just makes the file a bit more descriptive. This is useful because the report shows the instructor which eigenevents the student was at at a glance, and the list of events is generated from the filenames that student's ID is included in.
+
+<h3>
+Roster uploads
+</h3>
+An instructor may also load a class roster to the server. On vault, ask for a .csv file (not a pdf) to be uploaded. This file can be directly uploaded to the server without modification.
+
+
   </div> <!-- /uploader -->
-
-
   <div id="eigen" class="togglableDisplay">
+<h2>Eigen Report</h2>
+Select the roster for which you would like to generate a report
    <form action="eigen_process.php" method="post">
     <select name="roster_file">
 <?php
@@ -191,8 +214,13 @@ echo '        <option value="'. $short_filename .'">' . $short_filename . '</opt
     <input type="submit" value="Generate Report" name="submit">
    </form> <!-- /report_generator -->
   </div> <!-- /generator -->
+
   
 <div class="togglableDisplay" id="sgl-report">
+<h2>SGL Report</h2>
+<p>
+Select which roster you wish to create a report for (General Physics), and then select all applicable csv files that are on the server. The program will trace through each
+checked-off file and tally up which students completed what.
    <form action="sgl_process.php" method="post">
 Select Roster File:<br>
     <select name="roster_file">
@@ -226,9 +254,9 @@ Select Files<br>
 
   </div>
   
-  <div class="col-md-4"> <!-- Right column -->
+  <div class="col-md-3"> <!-- Right column -->
 <div id="list-files">
-<ul>
+<div class="panel-group">
 <?php
 function strip_slash($string) {
   if (strpos($string, '/') !== FALSE)
@@ -237,17 +265,21 @@ function strip_slash($string) {
 }
   foreach(glob('uploads/*', GLOB_ONLYDIR) as $dir)
   {
-    echo '<li>' . strip_slash($dir);
-    echo '<ul>';
+    echo '<div class="panel panel-default">';
+    echo '<div class="panel-heading">';
+    echo '<h4 class="panel-title"><a data-toggle="collapse" href="#collapse' . strip_slash($dir) .'">' . strip_slash($dir) . '</h4>';
+    echo '</div>';
+    echo '<div id="collapse' . strip_slash($dir) . '" class="panel-collapse collapse">';
+    echo '<ul class="list-group">';
     foreach(glob( $dir . '/*') as $file)
     {
-      echo '<li><a href="' . $file . '">' . strip_slash($file) . '</a>';
+      echo '<a class="list-group-item" href="' . $file . '">' . strip_slash($file) . '</a>';
     }
-    echo '</ul><br><br>';
+    echo '</ul></div></div>';
 	   
   }
 ?>
-</ul>
+</div>
 </div> <!-- /list files -->
 
   </div> <!-- End of right column -->
@@ -280,8 +312,8 @@ divId = ($("#selectInterface").val())
 $('.togglableDisplay').not('#'+divId).hide()
 $('#'+divId).show()
  */ 
+$('.togglableDisplay').hide()
 $('#eigen').show();
-console.log('Hey');
 //-->
 </script>
 </html>
