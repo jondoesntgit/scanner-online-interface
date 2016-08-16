@@ -3,13 +3,23 @@
 <head>
 <title>Physics Scanner Hub</title>
 <!-- Include jQuery -->
-
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.3.min.js" ></script>
 
 <!-- Bootstrap -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<link rel="stylesheet" type="text/css" href="style.css" />
+<!--<link rel="stylesheet" type="text/css" href="style.css" />-->
+<style>
+.panel > .panel-heading {
+  background-color: #0769ad;
+  color: white;
+}
+
+.list-group > .list-group-item.active {
+  background-color: #0769ad;
+  color: white;
+}
+</style>
 
 <script type="text/javascript">
 <!--
@@ -314,6 +324,7 @@ $('#'+divId).show()
  */ 
 $('.togglableDisplay').hide()
 $('#eigen').show();
+console.log('Loaded');
 //-->
 </script>
 </html>

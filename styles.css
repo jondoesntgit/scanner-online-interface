@@ -1,0 +1,390 @@
+/*--------------------------------------------------------------------------
+Layout related css
+--------------------------------------------------------------------------*/ 
+
+
+
+     /*this is the body.... figure it out
+----------------------------------------------------------*/
+body {
+     font:12px verdana, arial, sans-serif;
+	 color: #555;
+     text-align:center;
+     }
+
+/*div encompassing EVERYTHING
+----------------------------------------------------------*/
+div#main {
+     width:1000px;
+     text-align:left;
+     margin:auto;
+     border: 1px solid black;
+     background-color:red; /*temp*/
+     }
+ 
+    /*div encompassing HEADER
+----------------------------------------------------------*/
+div#header {
+     height:65px;
+     background-color: #333333;
+     color: white;
+     padding-bottom:3px;
+     margin:0;
+     }
+ 
+    /*div encompassing the SEARCH BAR
+----------------------------------------------------------*/
+div#bar {
+     height:26px;
+     background-color: white;
+     color: #333333;
+     text-align:right;
+     padding:3px 0 3px 0;
+     margin:0;
+     border-bottom:1px solid black;
+     }
+
+    /*div encompassing the CONTENT AND SIDEBARS
+----------------------------------------------------------*/
+div#box {
+     background-color: #e0d3cd;
+     }
+
+    /*div encompassing the LEFT SIDEBAR
+----------------------------------------------------------*/ 
+div#l-sidebar {
+     z-index:2;
+     float:left;
+	 font: 11px arial, verdana, sans-serif;
+     color:white;
+     background-color: #334858;
+     height: 620px;
+     width: 160px;
+     border-right:1px solid black
+     }
+
+    /*div encompassing the RIGHT SIDEBAR
+----------------------------------------------------------*/ 
+div#r-sidebar {  
+     float:right;
+     text-align:right;
+	 font: 11px arial, verdana, sans-serif;
+     color:white;
+     background-color: #334858;
+     height: 620px;
+     width:170px;
+     border-left:1px solid black;
+     }
+
+    /*div encompassing the FOOTER
+----------------------------------------------------------*/ 
+#ftr {
+     height:40px;
+     clear:both;
+     background:#c0c0c0;
+     color: #333333;
+     text-align:center;
+     border-top:1px solid black;
+     }  
+
+    /*div encompassing the CONTENT
+----------------------------------------------------------*/ 
+div#content {
+      text-align:left;
+      width:640px;
+      margin:0 0 0 175px;
+      padding:1px 0 1px 0; /*prevents content elements from bleeding through the div*/
+      }
+
+    /*CSS for styles for specific pages
+----------------------------------------------------------*/ 
+
+/*HOME page*/
+div#home {
+     text-align:center;
+     }
+
+/*LAB VIDEOS pages*/
+div#phys141videos h1, div#phys142videos h1 {
+     font-size: 30px;
+     padding:15px; 
+     margin:0; 
+     text-align:center;
+     }
+
+/*FACULTY BIO pages*/
+#facultypic {
+     border:2px solid black;
+     float:right;
+     height:346px;
+     width:258px;
+     margin:5px;
+     }
+
+/*PHOTO ALBUM pages*/
+div#photos td:hover {
+     border: solid 1px black;
+     background-color: #334858;
+     }
+ 
+div#photos td {
+     text-align:center;
+     vertical-align:top;
+     width:165px;
+     background-color:#D4B1A1;
+	 border: solid 1px black;
+     }
+
+div#photos a:link, div#photos a:visited, div#photos a:hover, div#photos a:active {
+     color:black;
+     }
+
+div#photos img{
+	border: 0px none;
+	}
+     
+     
+     
+     
+ 
+ 
+ 
+ 
+#contentpic {
+     text-align:center;
+     }
+ 
+ /*check on this*/
+#pagecontent {
+ position:relative;
+ z-index:1;
+ }
+  
+div#n ews {
+     margin:0 0 0 169px;
+     text-align:left;
+     }
+ 
+  
+
+ 
+ hr {
+  height:1px;
+  border-width:0 0 1px 0;
+  }
+
+
+
+
+ 
+
+/*Define table formatting
+table {
+ font:13px Verdana, Georgia;
+ }*/ 
+ 
+/*Define settings for multiple tables*/
+table.events {
+	border-width: 0px;
+	border-style: outset;
+	border-color: gray;
+	border-collapse: collapse;
+
+}
+table.events th {
+	border-width: 0px;
+	padding: 1px;
+	border-style: solid;
+	color: #444;
+
+}
+table.events td {
+	border-width: 0px;
+	padding: 1px;
+	border-style: solid;
+}
+
+table#resources {
+	border-collapse: collapse;
+	margin-left:auto;
+	margin-right:auto;
+	width:640px;
+	}
+
+table#resources td {
+	padding: 4px 3px 4px 3px;
+}
+
+table#resources .colhead {
+	padding: 2px 6px 2px 6px;
+	background: #334858;
+	font-weight: bolder;
+	font-size: 120%;
+	color: #FFF;
+}
+
+table#resources a {
+	font-weight: bold;
+	font-style:italic;
+}
+
+table#resources .odd {
+	background: #CEE4F9;
+}
+
+table#resources .even{
+	background: #91A0AE;
+}
+
+ 
+/*All the Paragraph code and header code... controls content pages AND sidebar headers*/
+p.largeletter:first-letter {
+ font-weight: bold;
+ color: #334858;
+ font-size: 150%;
+ } 
+
+h1 {
+ font: 35px Georgia;
+ color: #333;
+ }
+
+h2	{
+ font: 25px Georgia;
+ color: #333;
+ }
+ 
+/* h3 most commonly used header in content*/
+
+
+h3 {
+ color: #333;
+ }
+
+ 
+/* h4 Header used for sidebars*/   
+h4 {
+ color:white;
+ font: 22px Georgia;
+ font-weight:bold;
+ } 
+ 
+ /*Form validation text*/
+ .errortext {
+   font-family: Arial, Helvetica, sans-serif; 
+   font-size: 14px; color:#C00000; font-weight: bold;
+   } 
+
+   
+ /*Form validation text*/
+   #formdiv {
+   text-align:left;
+   padding:0px 0 10px 160px;
+   }
+   
+/*All normal page links*/
+
+a:link, a:visited, a:hover, a:active {
+ text-decoration:none;
+ }
+
+a:link {
+ color:#06C;
+ }
+
+a:visited {
+ color:#06C;
+ }
+
+a:active {
+ color:#06C;
+ }
+
+a:hover {
+ color:red;
+ }
+
+  /* News page styles
+  ----------------------------------------------------------------*/
+
+ul.newslinks { 
+ font-size:.95em;
+ margin:6px; 
+ padding:6px; 
+ width:auto; 
+ position:relative;
+ z-index:1;
+ } 
+
+ul.newslinks a:hover {
+ color:red;
+ }
+
+ ul.newslinks li {
+  padding:2px 0 2px 0;}
+ 
+img.news_image {
+	width:130px;
+	float:right;
+	margin: 8px;
+	}
+  
+  
+  /* Sidebar CSS
+  ----------------------------------------------------*/
+  
+   /*Code for both unordered lists of links on the sidebars... including the hover feature*/
+ul.sidebar a:link, ul.sidebar a:visited, ul.sidebar a:hover, ul.sidebar a:active {
+ color:white;
+ display:block;
+ padding:5px;
+ text-decoration:none;
+ }
+
+ul.sidebar, .sidebar ul { 
+ list-style-type:none; 
+ margin:0px; 
+ padding:0px; 
+ width:auto; /*???*/
+ } 
+
+ul.sidebar a:hover {
+ color:#334858;
+ background-color:#e0d3cd;
+ }
+
+ul.sidebar a:active {
+ color:#33C;
+ background:#CCC;
+ }
+ 
+ .sidebar li {height:26px;}
+ 
+ .sidebar li {position:relative; z-index:2;}
+
+.dropright li {
+		   background-color: #334858;
+		   }
+
+ul.dropright a:hover {border:solid thin black;}
+		   
+ul.dropright { 
+ position: absolute;
+ top: 0;
+ left: 100%;
+ width:100%;
+ } 
+
+
+div#l-sidebar ul ul {display:none}
+
+div#l-sidebar ul li:hover ul {display:block;}
+ 
+ /*Code for the contact info located on lower right hand sidebar*/
+#contactinfo {
+ font:11px Verdana, Georgia;
+ color:white;
+ padding-right:5px;
+ }
+ 
+  
